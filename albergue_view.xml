@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	<!-- ACTIONS -->
+        <record id="action_habitacion_form" model="ir.actions.act_window">
+            <field name="name">Habitaciones</field>
+            <field name="res_model">product.template</field>            
+            <field name="view_mode">form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+        </record>
+        <record id="action_estancia_form" model="ir.actions.act_window">
+            <field name="name">Estancia</field>
+            <field name="res_model">estancia</field>            
+            <field name="view_mode">tree,form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+        </record>
+        <record id="action_huesped_form" model="ir.actions.act_window">
+            <field name="name">Huespedes</field>
+            <field name="res_model">res.partner</field>            
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="context">{'search_default_huespedes': 1}</field>
+        </record>
+		<!--<record id="action_reserva_form" model="ir.actions.act_window">
+            <field name="name">Reservas</field>
+            <field name="res_model">sale.order</field>            
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+        </record>-->
+        <!-- MENUITEMS --> 	
+	<menuitem id="menu_gestion_albergue" name="Gestión de Albergue" parent=""
+                  sequence="5"/>
+	<menuitem id="menu_seccion_habitacion" 
+                  name="Habitaciones" parent="menu_gestion_albergue"
+				  sequence="2"/>	
+	<menuitem id="menu_gestion_habitacion_lateral" 
+                  name="Gestión de Habitaciones" 
+                  parent="menu_seccion_habitacion"
+                  action="action_habitacion_form"/>	
+	<menuitem id="menu_seccion_estancia" 
+                  name="Estancias" 
+                  parent="menu_gestion_albergue"
+				  sequence="1"/>
+	<menuitem id="menu_gestion_estancia_lateral" 
+                  name="Gestión de Estancias" 
+                  parent="menu_seccion_estancia" 
+                  action="action_estancia_form"/>
+	<menuitem id="menu_seccion_huesped" 
+                  name="Huespedes" 
+                  parent="menu_gestion_albergue"
+				  sequence="0"/>
+	<menuitem id="menu_gestion_huesped_lateral" 
+                  name="Gestión de Huespedes" 
+                  parent="menu_seccion_huesped" 
+                  action="action_huesped_form"/>
+        <!-- VIEWS -->  	
+        <!-- FORMS  -->
+<!--
+	<record model="ir.ui.view" id="gestion_habitacion_form_view">
+            <field name="name">gestion_habitacion.form</field>
+            <field name="model">habitacion</field>	    	
+	    <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Habitaciones">
+                <sheet>
+                <group string="Habitaciones">           	
+					<field name="name"/>
+					<field name="descripcion"/>
+					<field name="camas"/>
+					<field name="codigo"/>
+					<field name="ubicacion"/>
+                </group>
+                </sheet>				
+            </form>			    	
+            </field>
+	</record>
+	-->
+	<record model="ir.ui.view" id="gestion_estancia_form_view">
+            <field name="name">gestion_estancia.form</field>
+            <field name="model">estancia</field>	    	
+	    <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Estancias">
+                <sheet string="Estancias" cols="4">
+                <group>        	
+					<field name="name" colspan="2"/>
+					<field name="fecha_entrada" colspan="2"/>
+					<field name="fecha_salida" colspan="2"/>
+					<field name="fecha_reserva" colspan="2"/>
+                </group>
+                <notebook>
+                    <page string="Habitaciones">
+                    <!--<field name="habitacion_ids" colspan="2" nolabel="1"/>-->
+                    </page> 
+                </notebook>
+				
+                             
+                </sheet>				
+            </form>			    	
+            </field>
+	</record>
+<!--	<record model="ir.ui.view" id="gestion_huesped_form_view">
+            <field name="name">gestion_huesped.form</field>
+            <field name="model">huesped</field>	    	
+	    <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Huespedess">            	
+		<field name="name"/>
+		<field name="direccion"/>
+                <field name="localidad"/>
+                <field name="provincia"/>
+		<field name="telefono"/>
+                <field name="fecha_nacimiento"/>
+                <field name="email"/>
+                <field name="estancia_id"/>                				
+            </form>			    	
+            </field>
+	</record>-->
+	<record model="ir.ui.view" id="res_partner_form_inherit_view">
+            <field name="name">res partner huesped</field>
+            <field name="model">res.partner</field>	    	
+	    <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="website"]' position='after'>
+                    <field name="es_huesped"/>				
+                </xpath>
+				<xpath expr='//page[@name="internal_notes"]' position='before'>
+					<page string="Estancias">
+						<!--<field name="estancia_id" colspan="4" nolabel="1"/>-->
+					</page> 
+			</xpath>
+
+            </field>
+	</record>      
+	
+	<!--FORM HABITACION-->
+	
+	<record model="ir.ui.view" id="product_template_form_inherit">
+            <field name="name">product template habitacion</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr='//field[@name="list_price"]' position='after'>
+                    		<field name="camas"/>
+                </xpath>
+		</field>
+       </record>  
+
+	
+        <!-- TREES -->
+<!--
+	<record model="ir.ui.view" id="gestion_habitacion_tree_view">
+            <field name="name">gestion_habitacion.tree</field>
+            <field name="model">habitacion</field>	    	
+	    <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="Habitaciones">            	
+				<field name="name"/>
+				<field name="descripcion"/>
+				<field name="camas"/>
+				<field name="ubicacion"/>
+                <field name="codigo"/>				
+            </tree>			    	
+            </field>
+	</record>
+	-->
+	
+	
+	<record model="ir.ui.view" id="gestion_estancia_tree_view">
+            <field name="name">gestion_estancia.tree</field>
+            <field name="model">estancia</field>	    	
+	    <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="Estancias">            	
+				<field name="name"/>
+				<field name="fecha_entrada"/>
+				<field name="fecha_salida"/>
+				<field name="fecha_reserva"/>
+                <!--<field name="habitacion_ids"/>				-->
+            </tree>			    	
+            </field>
+	</record>
+<!--	<record model="ir.ui.view" id="gestion_huesped_tree_view">
+            <field name="name">gestion_huesped.tree</field>
+            <field name="model">huesped</field>	    	
+	    <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="Huespedess">            	
+		<field name="name"/>
+		<field name="direccion"/>
+                <field name="localidad"/>
+                <field name="provincia"/>
+		<field name="telefono"/>
+                <field name="fecha_nacimiento"/>
+                <field name="email"/>
+                <field name="estancia_id"/>                				
+            </tree>			    	
+            </field>
+	</record>-->
+	<!-- SEARCH de alumnos -->
+	<record model="ir.ui.view" id="res_partner_view_inherit_search">
+        <field name="name">Filtros de Huespedes</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" /> 
+        <field name="arch" type="xml">
+        	<xpath expr="filter[@string='Persons']" position='before'>
+        		<filter name="huespedes" string="Huesped"
+        				domain="[('es_huesped','=',1)]"/>    				        							
+		</xpath> 
+	</field>
+	</record>
+	</data>
+</openerp>
