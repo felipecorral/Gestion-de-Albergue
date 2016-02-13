@@ -42,15 +42,7 @@ class huesped(models.Model):
 
 	fecha_nacimiento = fields.Date('Fecha de Nacimiento')
 	es_huesped = fields.Boolean("Huesped")
-	
-	#estancia_id = fields.Many2many('estancia', 'Estancia')
-		
-#    name = fields.Char('Nombre', size=50)
-#    direccion = fields.Char('Dirección', size=50)
-#    localidad = fields.Char('Localidad', size=50)
-#    provincia = fields.Char('Provincia', size=30)
-#    telefono = fields.Char('Teléfono', size=12)
-#    email = fields.Char('Email', size=50)
+	documento = fields.Binary('Identificacion', help='Seleccione un documento de identificacion')
 
 huesped()
 

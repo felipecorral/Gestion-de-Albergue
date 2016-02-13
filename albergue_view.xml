@@ -34,7 +34,7 @@
 		<record id="action_reserva_form" model="ir.actions.act_window">
             <field name="name">Reservas</field>
             <field name="res_model">sale.order</field>            
-            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_mode">graph,tree,calendar,form</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
 <!-- 			<field name="context">{'search_default_reservas': 1}</field> -->
@@ -89,7 +89,7 @@
             <field name="arch" type="xml">
             <form string="Habitacion">
                 <sheet string="Habitacion" cols="4">
-                <group>        	
+                <group>
 					<field name="name" colspan="2"/>
 					<field name="camas" colspan="2"/>
 					<field name="codigo" colspan="2"/>
@@ -113,8 +113,8 @@
                     <field name="es_huesped"/>				
                 </xpath>
 				<xpath expr='//page[@name="internal_notes"]' position='before'>
-					<page string="Camas">
-						<!--<field name="cama_id" colspan="4" nolabel="1"/>-->
+					<page string="Documentos">
+						<field name="documento" colspan="4" nolabel="1"/>
 					</page> 
 			</xpath>
 
