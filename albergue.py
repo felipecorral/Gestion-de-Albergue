@@ -20,15 +20,16 @@
 from openerp import fields, models
 
 class habitacion(models.Model):    
-	_name = "product.template"
-	_inherit = 'product.template' 
+	_name = "habitacion"
 	
-	camas = fields.Char('Camas', size=5)
+
+	camas = fields.Integer('Camas', size=5)
+    	
 	
       
-	#name = fields.Char('Nombre', size=50)
-	#codigo = fields.Char('Código', size=5)
-	#ubicacion = fields.Char('Ubicación', size=50)
+	name = fields.Char('Nombre', size=50)
+	codigo = fields.Char('Código', size=5)
+	ubicacion = fields.Char('Ubicación', size=50)
 	
 		#_name = 'habitacion'
 	
@@ -54,23 +55,30 @@ class huesped(models.Model):
 huesped()
 
 
+
 	
-class estancia(models.Model): 
+class cama(models.Model): 
   
-	_name = 'estancia'   
-	name = fields.Char('Nombre', size=50)
-	descripcion = fields.Char('Descripción', size=100)
-	estudios = fields.Char('Estudios', size=30)
-	fecha_entrada = fields.Date()
-	fecha_salida = fields.Date()
-	fecha_reserva = fields.Date(fields.Date.today())
-	habitacion_ids = fields.Many2one('habitacion', string='Habitaciones')
+
+	_inherit = 'product.template' 
+	_name = "product.template"
+	es_cama = fields.Boolean('Cama')
+	habitacion_id = fields.Many2one('habitacion','Habitacion')
+    
+	
+
+	#huesped_ids = fields.Many2one('partner_id', string='Habitaciones')
        
-estancia()
+cama()
 
 
 
 class reserva(models.Model):
-	_inherit = 'sale.order'
+    
+    _inherit = 'sale.order'
+    fecha_entrada = fields.Date()
+    fecha_salida = fields.Date()
+    es_reserva = fields.Boolean('Reserva')
+
 	
 reserva()
