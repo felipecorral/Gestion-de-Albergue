@@ -58,15 +58,16 @@
 		
 		
         <!-- MENUITEMS --> 	
-		
-	<menuitem id="menu_gestion_albergue" name="Gestión de Albergue" parent=""
-                  sequence="5"/>
+	<menuitem id="menu_gestion_albergue" 
+			  name="Gestión de Albergue" 
+			  parent=""
+              sequence="5"/>
 	<!--MENUITEM HUESPEDES-->			  
-	<menuitem id="menu_seccion_huesped" name="Huespedes" 
+	<menuitem id="menu_seccion_huesped" name="Huéspedes" 
                   parent="menu_gestion_albergue"
 				  sequence="0"/>
 	<menuitem id="menu_gestion_huesped_lateral" 
-                  name="Gestión de Huespedes" 
+                  name="Gestión de Huéspedes" 
                   parent="menu_seccion_huesped" 
                   action="action_huesped_form"/>
 	<!--MENUITEM RESERVAS-->			  
@@ -81,7 +82,7 @@
 
 	<!--MENUITEM CONFIGURACION-->			  
 	<menuitem id="menu_seccion_configuracion" 
-                  name="Configuracion" 
+                  name="Gestión de Estancias" 
 				  parent="menu_gestion_albergue"
 				  sequence="4"/>	
  	<menuitem id="menu_gestion_habitacion_lateral" 
@@ -96,16 +97,18 @@
                   name="Gestión de Camas" 
                   parent="menu_seccion_configuracion" 
                   action="action_cama_form"/> 				  
-	<!--EMPLEADOS-->
+	<!--MENUITEM EMPLEADOS-->
+	<menuitem id="menu_seccion_empleados" 
+                  name="Empleados" 
+				  parent="menu_gestion_albergue"
+				  sequence="4"/>
     <menuitem id="menu_gestion_empleados_lateral" 
-				  name="Gestion de Empleados" 
-				  parent="menu_seccion_configuracion" 
+				  name="Gestión de Empleados" 
+				  parent="menu_seccion_empleados" 
 				  action="action_empleados_form"/>			  
     <!-- VIEWS -->  	
         <!-- FORMS  -->
 
-	
-	
 	<!--FORM HABITACION-->
 	<record model="ir.ui.view" id="gestion_habitacion_form_view">
         <field name="name">gestion_habitacion.form</field>
@@ -118,9 +121,12 @@
 						<field name="name" colspan="2"/>
 						<field name="camas" colspan="2"/>
 						<field name="codigo" colspan="2"/>
-						<field name="ubicacion" colspan="2"/>
-<!-- 					<field name="camas_id" colspan="4" nolabel="1"/>  -->
-					</group>         				
+					</group>
+					<notebook>
+						<page string="Lista de Camas">
+							<field name="camas_id"/>
+						</page>
+					</notebook>
                 </sheet>				
             </form>			    	
         </field>
@@ -136,15 +142,22 @@
                 <sheet string="Ubicacion" cols="4">
 					<group>
 						<field name="nombre" colspan="2"/>
+						<field name="descripcion"/>	
+						<field name="direccion"/>
 						<field name="aforo" colspan="2"/>
-						<field name="pincode"/>	
-					</group>         				
+						<field name="pincode"/>
+						<field name="clavewifi"/>
+						<field name="adaptada"/>
+					</group>  
+					<notebook>
+						<page string="Lista de Habitaciones">
+							<field name="habitacion_id"/>
+						</page>
+					</notebook>       				
                 </sheet>				
             </form>			    	
         </field>
 	</record>
-	
-	
 	
 	<!--FORM HUESPEDES-->
 	<record model="ir.ui.view" id="res_partner_form_inherit_view">
@@ -154,17 +167,16 @@
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
                 <xpath expr='//field[@name="website"]' position='after'>
-                    <field name="es_huesped"/>				
+                    <field name="es_huesped"/>			
+					<field name="es_minusvalido"/>
                 </xpath>
 				<xpath expr='//page[@name="internal_notes"]' position='before'>
 					<page string="Documentos">
 						<field name="documento" colspan="4" nolabel="1"/>
 					</page> 
-			</xpath>
-
+				</xpath>
             </field>
 	</record>      
-	
 	
 
 	
@@ -176,7 +188,6 @@
  			<field name="arch" type="xml">			
 				<field name="list_price" position="after">
  					<field name="es_cama" colspan="2"/>
-<!-- 				    <field name="habitacion_id" colspan="2"/> -->
 				</field> 
 			</field> 
        </record>  
@@ -203,10 +214,10 @@
 			<field name="type">form</field>
             <field name="arch" type="xml">
 				<field name="work_phone" position="after">
-					<field name="fecha_contratado"/>
-<!-- 					<separator string="Salas"/>
-					<label for="sala_responsable" string="A cargo de:" options="{'no_create': True}"/>
-					<field name="responsable_sala" /> -->
+					<label for="fecha_contratado" string="Fecha Contratado"/>
+					<field name="fecha_contratado" colspan="2"/>
+					<label for="ubicacion_cargo" string="Ubicación"/>
+					<field name="ubicacion_cargo" colspan="2"/>
 				</field>
 			</field>
 		</record>
@@ -223,7 +234,6 @@
 				<field name="name"/>           	
 				<field name="camas"/>
 				<field name="codigo"/>           	
-				<field name="ubicacion"/>
             </tree>			    	
         </field>
 	</record> 
@@ -236,29 +246,16 @@
         <field name="arch" type="xml">
             <tree string="Ubicaciones"> 
 				<field name="nombre"/>
+				<field name="descripcion"/>	
+				<field name="direccion"/>	
 				<field name="pincode"/>	
 				<field name="aforo"/>
+				<field name="clavewifi"/>
+				<field name="adaptada"/>
             </tree>			    	
         </field>
 	</record>
-	
-	
-	<!--CAMA -TREEE-->
-<!-- 	<record model="ir.ui.view" id="gestion_cama_tree_view">
-            <field name="name">gestion_cama.tree</field>
-            <field name="model">cama</field>	    	
-	    <field name="type">tree</field>
-            <field name="arch" type="xml">
-            <tree string="camas">            	
-				<field name="name"/>
-				<field name="fecha_entrada"/>
-				<field name="fecha_salida"/>
-				<field name="fecha_reserva"/> -->
-                <!--<field name="habitacion_ids"/>				-->
-<!--             </tree>			    	
-            </field>
-	</record> -->
-	
+		
 	
 	<!--SEARCH-->
 		<!-- SEARCH HUESPEDES -->
@@ -270,35 +267,9 @@
         	<xpath expr="filter[@string='Persons']" position='before'>
         		<filter name="huespedes" string="Huesped"
         				domain="[('es_huesped','=',1)]"/>    				        							
-		</xpath> 
-	</field>
-	</record>
-	
-	<!--SEARCH DE HABITACIONES-->
-<!-- 	<record model="ir.ui.view" id="product_template_view_inherit_search">
-        <field name="name">Filtros de Habitaciones</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_search_view" /> 
-        <field name="arch" type="xml">
-        	<xpath expr="filter[@string='Can be Sold']" position='before'>
-        		<filter name="habitaciones" string="Habitación"
-        				domain="[('es_habitacion','=',1)]"/>    				        							
-		</xpath> 
-	</field>
-	</record> -->
-	
-	<!--SEARCH DE RESERVAS-->
-<!-- 	<record model="ir.ui.view" id="sales_order_view_inherit_search">
-        <field name="name">Filtros de Reservas</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter" /> 
-			<field name="arch" type="xml">
-        	<xpath expr="filter[@string='client_order_ref']" position='after'>
-        		<filter name="reservas" string="Reserva"
-        				domain="[('es_reserva','=',1)]"/>    				        							
-		</xpath>
+			</xpath> 
 		</field>
-	</record> -->
+	</record>
 	
 	<!--SEARCH DE CAMAS-->
  	<record model="ir.ui.view" id="product_template_view_inherit_search">
@@ -309,8 +280,8 @@
         	<xpath expr="filter[@string='Can be Sold']" position='before'>
         		<filter name="camas" string="Cama"
         				domain="[('es_cama','=',1)]"/>    				        							
-		</xpath> 
-	</field>
+			</xpath> 
+		</field>
 	</record>
 	
 	</data>

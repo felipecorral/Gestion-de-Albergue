@@ -20,14 +20,14 @@
 
 
 {
-    "name": "Gestion de Albergue",
+    "name": "Gestión de Albergue",
     "version": "0.1",
     "category": "",
     "depends": [
                 'base', 'sale', 'hr'               
                 ],
     "author": "Felipe Corral y Juan Muñiz",
-    "description": "Módulo para gestion basica de un albergue de peregrinos",
+    "description": "Módulo para gestión básica de un albergue de peregrinos",
     "init_xml": [],
     "data": [             
              'albergue_view.xml'

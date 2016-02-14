@@ -20,15 +20,18 @@
 from openerp import fields, models
 
 class habitacion(models.Model):    
-	_name = "habitacion"
+    _name = "habitacion"
 	
 
-	camas = fields.Integer('Camas', size=5)
-    	
-	name = fields.Char('Nombre', size=50)
-	codigo = fields.Char('Código', size=5)
-	ubicacion = fields.Char('Ubicación', size=50)
-	#camas_id = fields.Many2one('product.template', 'Camas')
+    camas = fields.Integer('Camas', size=5)
+    name = fields.Char('Nombre', size=50)
+    codigo = fields.Char('Código', size=5)
+    camas_id = fields.Many2many('product.template', string = 'Camas')
+
+    # def _compute_camas(self):
+        # self.camas=0
+        # for cam in self.camas_id:
+			# self.camas=self.camas + 1
 	
 		#_name = 'habitacion'
 	
@@ -38,8 +41,19 @@ habitacion()
 class ubicacion(models.Model):
     _name = "ubicacion"
     nombre = fields.Char('Nombre', size=50)
-    aforo = fields.Integer('Aforo',size=5)
+    aforo = fields.Integer('Aforo', compute="_compute_aforo", readonly=True)
     pincode = fields.Integer('Pincode',size=6)
+    clavewifi = fields.Char('Clave Wifi',size=30)
+    adaptada = fields.Boolean('Adaptada')
+    descripcion = fields.Char('Descripción',size=300)
+    direccion = fields.Char('Dirección',size=200)
+    habitacion_id = fields.Many2many('habitacion', string='Habitaciones')
+    def _compute_aforo(self):
+		self.aforo=0
+		for af in self.habitacion_id:
+			self.aforo= self.aforo + af.camas
+	
+	
 ubicacion()
 	
 
@@ -48,7 +62,8 @@ class huesped(models.Model):
 	_inherit = 'res.partner'	
 
 	fecha_nacimiento = fields.Date('Fecha de Nacimiento')
-	es_huesped = fields.Boolean("Huesped")
+	es_huesped = fields.Boolean("Huésped")
+	es_minusvalido = fields.Boolean("Discapacitado")
 	documento = fields.Binary('Identificacion', help='Seleccione un documento de identificacion')
 
 huesped()
@@ -62,9 +77,7 @@ class cama(models.Model):
 	_inherit = 'product.template' 
 	_name = "product.template"
 	es_cama = fields.Boolean('Cama')
-	#habitacion_id = fields.Many2one('habitacion','Habitacion')
     
-	#huesped_ids = fields.Many2one('partner_id', string='Habitaciones')
        
 cama()
 
@@ -73,7 +86,6 @@ cama()
 class reserva(models.Model):
     
     _inherit = 'sale.order'
-    #partner_id = fields.Many2one('res.partner', 'Huesped', domain=[("es_huesped", "=", True)])
     fecha_entrada = fields.Date()
     fecha_salida = fields.Date()
     es_reserva = fields.Boolean('Reserva')
@@ -87,7 +99,7 @@ class empleado(models.Model):
 	_inherit="hr.employee"
 	_name="hr.employee"
 	
-	fecha_contratado=fields.Date("Fecha de contratación:")
-	#ubicacion_cargo = fields.Many2one("ubicacion", "Ubicaciones", delegate=True)
+	fecha_contratado=fields.Date('Fecha de contratación:')
+	ubicacion_cargo = fields.Many2one('ubicacion', string='Ubicación')
 
 empleado()
