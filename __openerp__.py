@@ -24,7 +24,7 @@
     "version": "0.1",
     "category": "",
     "depends": [
-                'base', 'sale',               
+                'base', 'sale', 'hr'               
                 ],
     "author": "Felipe Corral y Juan Muñiz",
     "description": "Módulo para gestion basica de un albergue de peregrinos",

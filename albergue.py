@@ -28,12 +28,20 @@ class habitacion(models.Model):
 	name = fields.Char('Nombre', size=50)
 	codigo = fields.Char('Código', size=5)
 	ubicacion = fields.Char('Ubicación', size=50)
-	camas_id = fields.Many2one('product.template', 'Camas')
+	#camas_id = fields.Many2one('product.template', 'Camas')
 	
 		#_name = 'habitacion'
 	
 	
 habitacion()
+
+class ubicacion(models.Model):
+    _name = "ubicacion"
+    nombre = fields.Char('Nombre', size=50)
+    aforo = fields.Integer('Aforo',size=5)
+    pincode = fields.Integer('Pincode',size=6)
+ubicacion()
+	
 
 
 class huesped(models.Model):
@@ -72,3 +80,14 @@ class reserva(models.Model):
 
 	
 reserva()
+
+
+
+class empleado(models.Model):
+	_inherit="hr.employee"
+	_name="hr.employee"
+	
+	fecha_contratado=fields.Date("Fecha de contratación:")
+	#ubicacion_cargo = fields.Many2one("ubicacion", "Ubicaciones", delegate=True)
+
+empleado()

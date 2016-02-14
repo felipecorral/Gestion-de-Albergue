@@ -10,8 +10,16 @@
             <field name="view_mode">tree,form</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
-
         </record>
+		<!--UBICACION-->
+        <record id="action_ubicacion_form" model="ir.actions.act_window">
+            <field name="name">Ubicaciones</field>
+            <field name="res_model">ubicacion</field>            
+            <field name="view_mode">tree,form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+        </record>
+		
 		<!--CAMA-->
         <record id="action_cama_form" model="ir.actions.act_window">
             <field name="name">Camas</field>
@@ -39,6 +47,14 @@
             <field name="view_type">form</field>
 <!-- 			<field name="context">{'search_default_reservas': 1}</field> -->
         </record>
+		<!--EMPLEADOS-->
+		<record id="action_empleados_form" model="ir.actions.act_window">
+            <field name="name">Empleados</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+        </record>
 		
 		
         <!-- MENUITEMS --> 	
@@ -54,28 +70,37 @@
                   parent="menu_seccion_huesped" 
                   action="action_huesped_form"/>
 	<!--MENUITEM RESERVAS-->			  
-	<menuitem id="menu_seccion_reserva" name="Reservas" 
+	<menuitem id="menu_seccion_venta" 
+				  name="Ventas" 
                   parent="menu_gestion_albergue"
 				  sequence="1"/>
 	<menuitem id="menu_gestion_reserva_lateral" 
                   name="Reservas" 
-                  parent="menu_seccion_reserva" 
+                  parent="menu_seccion_venta" 
                   action="action_reserva_form"/>
-
 
 	<!--MENUITEM CONFIGURACION-->			  
 	<menuitem id="menu_seccion_configuracion" 
-                  name="Configuracion" parent="menu_gestion_albergue"
+                  name="Configuracion" 
+				  parent="menu_gestion_albergue"
 				  sequence="4"/>	
  	<menuitem id="menu_gestion_habitacion_lateral" 
                   name="Gestión de Habitaciones" 
                   parent="menu_seccion_configuracion"
                   action="action_habitacion_form"/>
+	<menuitem id="menu_gestion_ubicacion_lateral" 
+                  name="Ubicaciones" 
+                  parent="menu_seccion_configuracion"
+                  action="action_ubicacion_form"/>
  	<menuitem id="menu_gestion_cama_lateral" 
                   name="Gestión de Camas" 
                   parent="menu_seccion_configuracion" 
                   action="action_cama_form"/> 				  
-				  
+	<!--EMPLEADOS-->
+    <menuitem id="menu_gestion_empleados_lateral" 
+				  name="Gestion de Empleados" 
+				  parent="menu_seccion_configuracion" 
+				  action="action_empleados_form"/>			  
     <!-- VIEWS -->  	
         <!-- FORMS  -->
 
@@ -83,23 +108,40 @@
 	
 	<!--FORM HABITACION-->
 	<record model="ir.ui.view" id="gestion_habitacion_form_view">
-            <field name="name">gestion_habitacion.form</field>
-            <field name="model">habitacion</field>	    	
+        <field name="name">gestion_habitacion.form</field>
+        <field name="model">habitacion</field>	    	
 	    <field name="type">form</field>
-            <field name="arch" type="xml">
+        <field name="arch" type="xml">
             <form string="Habitacion">
                 <sheet string="Habitacion" cols="4">
-                <group>
-					
-					<field name="name" colspan="2"/>
-					<field name="camas" colspan="2"/>
-					<field name="codigo" colspan="2"/>
-					<field name="ubicacion" colspan="2"/>
+					<group>
+						<field name="name" colspan="2"/>
+						<field name="camas" colspan="2"/>
+						<field name="codigo" colspan="2"/>
+						<field name="ubicacion" colspan="2"/>
 <!-- 					<field name="camas_id" colspan="4" nolabel="1"/>  -->
-                </group>         				
+					</group>         				
                 </sheet>				
             </form>			    	
-            </field>
+        </field>
+	</record>
+	
+		<!--FORM UBICACION-->
+	<record model="ir.ui.view" id="gestion_ubicacion_form_view">
+        <field name="name">gestion_ubicacion.form</field>
+        <field name="model">ubicacion</field>	    	
+	    <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Ubicacion">
+                <sheet string="Ubicacion" cols="4">
+					<group>
+						<field name="nombre" colspan="2"/>
+						<field name="aforo" colspan="2"/>
+						<field name="pincode"/>	
+					</group>         				
+                </sheet>				
+            </form>			    	
+        </field>
 	</record>
 	
 	
@@ -153,24 +195,52 @@
 			</field>
        </record> 
        
-       
+       <!--FORM EMPLEADOS-->
+		<record id="empleados_form_view" model="ir.ui.view">
+			<field name="name">empleados.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="type">form</field>
+            <field name="arch" type="xml">
+				<field name="work_phone" position="after">
+					<field name="fecha_contratado"/>
+<!-- 					<separator string="Salas"/>
+					<label for="sala_responsable" string="A cargo de:" options="{'no_create': True}"/>
+					<field name="responsable_sala" /> -->
+				</field>
+			</field>
+		</record>
 
 	
  <!-- TREES -->
 	<!--HABITACIONES -TREEE-->
  	<record model="ir.ui.view" id="gestion_habitacion_tree_view">
-            <field name="name">gestion_habitacion.tree</field>
-            <field name="model">habitacion</field>	    	
+        <field name="name">gestion_habitacion.tree</field>
+        <field name="model">habitacion</field>	    	
 	    <field name="type">tree</field>
-            <field name="arch" type="xml">
+        <field name="arch" type="xml">
             <tree string="Habitaciones"> 
 				<field name="name"/>           	
 				<field name="camas"/>
 				<field name="codigo"/>           	
 				<field name="ubicacion"/>
             </tree>			    	
-            </field>
+        </field>
 	</record> 
+	
+	<!--UBICACIONES -TREEE-->
+ 	<record model="ir.ui.view" id="gestion_ubicacion_tree_view">
+        <field name="name">gestion_ubicacion.tree</field>
+        <field name="model">ubicacion</field>	    	
+	    <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Ubicaciones"> 
+				<field name="nombre"/>
+				<field name="pincode"/>	
+				<field name="aforo"/>
+            </tree>			    	
+        </field>
+	</record>
 	
 	
 	<!--CAMA -TREEE-->
