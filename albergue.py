@@ -25,11 +25,10 @@ class habitacion(models.Model):
 
 	camas = fields.Integer('Camas', size=5)
     	
-	
-      
 	name = fields.Char('Nombre', size=50)
 	codigo = fields.Char('Código', size=5)
 	ubicacion = fields.Char('Ubicación', size=50)
+	camas_id = fields.Many2one('product.template', 'Camas')
 	
 		#_name = 'habitacion'
 	
@@ -55,10 +54,8 @@ class cama(models.Model):
 	_inherit = 'product.template' 
 	_name = "product.template"
 	es_cama = fields.Boolean('Cama')
-	habitacion_id = fields.Many2one('habitacion','Habitacion')
+	#habitacion_id = fields.Many2one('habitacion','Habitacion')
     
-	
-
 	#huesped_ids = fields.Many2one('partner_id', string='Habitaciones')
        
 cama()
@@ -68,6 +65,7 @@ cama()
 class reserva(models.Model):
     
     _inherit = 'sale.order'
+    #partner_id = fields.Many2one('res.partner', 'Huesped', domain=[("es_huesped", "=", True)])
     fecha_entrada = fields.Date()
     fecha_salida = fields.Date()
     es_reserva = fields.Boolean('Reserva')

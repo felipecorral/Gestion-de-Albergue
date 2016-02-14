@@ -90,11 +90,13 @@
             <form string="Habitacion">
                 <sheet string="Habitacion" cols="4">
                 <group>
+					
 					<field name="name" colspan="2"/>
 					<field name="camas" colspan="2"/>
 					<field name="codigo" colspan="2"/>
 					<field name="ubicacion" colspan="2"/>
-                </group>                     
+<!-- 					<field name="camas_id" colspan="4" nolabel="1"/>  -->
+                </group>         				
                 </sheet>				
             </form>			    	
             </field>
@@ -132,7 +134,7 @@
  			<field name="arch" type="xml">			
 				<field name="list_price" position="after">
  					<field name="es_cama" colspan="2"/>
-				    <field name="habitacion_id" colspan="2"/>
+<!-- 				    <field name="habitacion_id" colspan="2"/> -->
 				</field> 
 			</field> 
        </record>  
